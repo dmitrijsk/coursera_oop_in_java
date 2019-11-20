@@ -115,26 +115,34 @@ public class BabyNames {
         // Loop over all selected files.
         for (File f : dr.selectedFiles()) {
             FileResource fr = new FileResource(f);
+            // System.out.println("Checking " + f.getName() + ".");
             int currRank = 0;
             // Read one CSV file by rows.
             for (CSVRecord rec : fr.getCSVParser(false)) {
                 String currGender = rec.get(1); // Gender
                 if (currGender.equals(gender)) { // Correct gender.
                     currRank++;
+                    String currName = rec.get(0); // Name
+                    if (currName.equals(name)) {
+                        // System.out.println("Current rank: " + currRank + ".");
+                        // Make maxRank = currRank for the very first file.
+                        if (fileCounter == 0) {
+                            // System.out.println("First file. Current rank = " + currRank + ".");
+                            maxRank = currRank;
+                            filenameMaxRank = f.getName();
+                            fileCounter++;
+                        }
+                        if (currRank != 0 && currRank < maxRank) {
+                            // System.out.println("Updating maxRank.");
+                            maxRank = currRank;
+                            filenameMaxRank = f.getName();
+                        }
+                        break;
+                    }
                 }
-                String currName = rec.get(0); // Name
-                if (currName.equals(name)) break;
+
             }
-            // Make maxRank = currRank for the very first file.
-            if (fileCounter == 0) {
-                maxRank = currRank;
-                filenameMaxRank = f.getName();
-                fileCounter++;
-            }
-            if (currRank < maxRank) {
-                maxRank = currRank;
-                filenameMaxRank = f.getName();
-            }
+
         }
         // Parse year from the filename.
         String yearStr = filenameMaxRank.replaceAll("[^0-9]","");
@@ -147,21 +155,26 @@ public class BabyNames {
          * the selected files. It should return -1.0 if the name is not ranked 
          * in any of the selected files. */
 
-        int sumRank = 0, countRank = 0, averageRank = -1; 
+        int sumRank = 0, countRank = 0;
+        double averageRank = -1; 
         DirectoryResource dr = new DirectoryResource();
         // Loop over all selected files.
         for (File f : dr.selectedFiles()) {
             FileResource fr = new FileResource(f);
             int currRank = 0;
             // Read one CSV file by rows.
+            // System.out.print("Checking " + f.getName() + ".");
             for (CSVRecord rec : fr.getCSVParser(false)) {
                 String currGender = rec.get(1); // Gender
                 if (currGender.equals(gender)) { // Correct gender.
                     currRank++;
                     String currName = rec.get(0); // Name
                     if (currName.equals(name)) {
+                        // System.out.print("Name found. Current rank = " + currRank);
                         sumRank +=currRank;
-                        countRank++;         
+                        countRank++;      
+                        // System.out.println(". Sum of ranks = " + sumRank + 
+                                           // ". Count of ranks = " + countRank);
                         break;
                     }
                 }
@@ -169,7 +182,7 @@ public class BabyNames {
             }
         }
 
-        if (countRank != 0) averageRank = sumRank / countRank;
+        if (countRank != 0) averageRank = ((double) sumRank) / countRank;
         return averageRank;
     }
 
