@@ -9,6 +9,7 @@
 import edu.duke.*;
 import org.apache.commons.csv.*;
 import java.io.*;
+import java.util.Scanner;
 
 public class ParseWeatherData {
 
@@ -172,11 +173,15 @@ public class ParseWeatherData {
     public void testAverageTemperatureWithHighHumidityInFile() {
         //  Test method averageTemperatureInFile.
         FileResource fr = new FileResource();
-        double averageTemp = averageTemperatureInFile(fr.getCSVParser(), 80);
+        Scanner sc = new Scanner(System.in); // Create a Scanner object.
+        String minHum = sc.nextLine();       // Read user input as a String.
+        double averageTemp = averageTemperatureInFile(fr.getCSVParser(), 
+                                                      Integer.parseInt(minHum));
         if (averageTemp == 0) {
             System.out.println("No temperatures with that humidity");
         } else {
-            System.out.println("Average Temp when high Humidity is " + averageTemp);
+            System.out.println("Average Temp when Humidity >= " + 
+                               minHum + " is " + averageTemp);
         }
 
     }
