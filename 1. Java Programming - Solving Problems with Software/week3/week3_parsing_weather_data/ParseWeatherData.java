@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class ParseWeatherData {
 
     public CSVRecord UpdateMinTempRecord(CSVRecord coldestRecordSoFar, CSVRecord currRecord) {
-
+        /* Help method to avoid code duplication. Returns the record with the highest temperature. */
         if (coldestRecordSoFar == null) {
             coldestRecordSoFar = currRecord;
         } else {
@@ -29,6 +29,10 @@ public class ParseWeatherData {
     }
 
     public CSVRecord coldestHourInFile(CSVParser parser) {
+        /* This method returns the CSVRecord with the coldest temperature in the file and thus 
+         * all the information about the coldest temperature, such as the hour of the coldest
+         * temperature. */
+
         CSVRecord coldestRecordSoFar = null;
         for (CSVRecord currRecord : parser) {
             coldestRecordSoFar = UpdateMinTempRecord(coldestRecordSoFar, currRecord);
@@ -37,6 +41,8 @@ public class ParseWeatherData {
     }
 
     public void testColdestHourInFile() {
+        /* Test method for coldestHourInFile */
+        
         FileResource fr = new FileResource();
         CSVRecord coldest = coldestHourInFile(fr.getCSVParser());
         System.out.println("Coldest temperature was " + 
@@ -44,6 +50,9 @@ public class ParseWeatherData {
     }
 
     public String fileWithColdestTemperature() {
+        /* This method should return a string that is the name of the file from 
+         * selected files that has the coldest temperature. */
+         
         DirectoryResource dr = new DirectoryResource();
         CSVRecord coldestRecordSoFar = null;
         String coldestFileName = "";
@@ -61,6 +70,8 @@ public class ParseWeatherData {
     }
 
     public void testFileWithColdestTemperature() {
+        /* Test method for FileWithColdestTemperature */
+        
         String coldestFileName = fileWithColdestTemperature();
         System.out.println("Coldest day was in file " + coldestFileName);
 
@@ -78,7 +89,8 @@ public class ParseWeatherData {
     }
 
     public CSVRecord UpdateMinHumRecord(CSVRecord lowestRecordSoFar, CSVRecord currRecord) {
-
+        /* Helper function to return a record with lowest humidity taking into account "N/A". */ 
+        
         double minHum, currHum;
 
         if (lowestRecordSoFar == null) {
@@ -110,6 +122,10 @@ public class ParseWeatherData {
     }
 
     public CSVRecord lowestHumidityInFile(CSVParser parser) {
+        /* This method returns the CSVRecord that has the lowest humidity. If there is a tie, 
+         * then return the first such record that was found. Note that sometimes there is not 
+         * a number in the Humidity column but instead there is the string "N/A".*/
+        
         CSVRecord lowestRecordSoFar = null;
         for (CSVRecord currRecord : parser) {
             lowestRecordSoFar = UpdateMinHumRecord(lowestRecordSoFar, currRecord);
@@ -118,6 +134,8 @@ public class ParseWeatherData {
     }
 
     public void testLowestHumidityInFile() {
+        /*Test method for lowestHumidityInFile. */
+        
         FileResource fr = new FileResource();
         CSVParser parser = fr.getCSVParser();
         CSVRecord csv = lowestHumidityInFile(parser);
@@ -127,6 +145,9 @@ public class ParseWeatherData {
     }
 
     public CSVRecord lowestHumidityInManyFiles() {
+        /* This method returns a CSVRecord that has the lowest humidity over all the files. 
+         * If there is a tie, then return the first such record that was found. */
+         
         DirectoryResource dr = new DirectoryResource();
         CSVRecord lowestRecordSoFar = null;
 
@@ -141,7 +162,8 @@ public class ParseWeatherData {
     }
 
     public void testLowestHumidityInManyFiles() {
-
+        /* Test method for lowestHumidityInManyFiles. */
+        
         CSVRecord lowest = lowestHumidityInManyFiles();
         System.out.println("Lowest Humidity was " + 
             lowest.get("Humidity") + " at " + 
@@ -149,10 +171,9 @@ public class ParseWeatherData {
 
     }
 
-    public double averageTemperatureInFile(CSVParser parser, int value) {
-        // Returns a double that represents the average temperature of 
-        // only those temperatures when the humidity was greater than or 
-        // equal to value.
+    public double averageTemperatureWithHighHumidityInFile(CSVParser parser, int value) {
+        /* This method returns a double that represents the average temperature of only 
+         * those temperatures when the humidity was greater than or equal to value. */
 
         double sumTemp = 0, countTemp = 0, averageTemp = 0;
 
@@ -171,17 +192,18 @@ public class ParseWeatherData {
     }
 
     public void testAverageTemperatureWithHighHumidityInFile() {
-        //  Test method averageTemperatureInFile.
+        /* Test method averageTemperatureWithHighHumidityInFile. */
+        
         FileResource fr = new FileResource();
         Scanner sc = new Scanner(System.in); // Create a Scanner object.
         String minHum = sc.nextLine();       // Read user input as a String.
-        double averageTemp = averageTemperatureInFile(fr.getCSVParser(), 
-                                                      Integer.parseInt(minHum));
+        double averageTemp = averageTemperatureWithHighHumidityInFile(fr.getCSVParser(), 
+                Integer.parseInt(minHum));
         if (averageTemp == 0) {
             System.out.println("No temperatures with that humidity");
         } else {
             System.out.println("Average Temp when Humidity >= " + 
-                               minHum + " is " + averageTemp);
+                minHum + " is " + averageTemp);
         }
 
     }
