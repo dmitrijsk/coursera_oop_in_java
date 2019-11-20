@@ -14,25 +14,30 @@ public class BabyNames {
     public void totalBirths() {
         /* This method counts the number of F and M baby births in a data file. */
 
-        int totalBirths = 0, totalMBirths = 0, totalFBirths = 0, numBirths;
+        int totalBirths = 0, totalMBirths = 0, totalFBirths = 0;
+        int countF = 0, countM = 0;
         String gender;
 
         FileResource fr = new FileResource();
         CSVParser parser = fr.getCSVParser(false);
         for (CSVRecord rec : parser) {
             gender = rec.get(1); // Gender
-            numBirths = Integer.parseInt(rec.get(2)); // Num births
+            int numBirths = Integer.parseInt(rec.get(2)); // Num births
 
             if (gender.equals("M")) {
                 totalMBirths += numBirths;
+                countM++;
             } else {
                 totalFBirths += numBirths;
+                countF++;
             }
         }
 
         System.out.println("Total num births: " + (totalMBirths + totalFBirths));
         System.out.println("Total M births: " + totalMBirths);
+        System.out.println("Count M names: " + countM);
         System.out.println("Total F births: " + totalFBirths);
+        System.out.println("Count F names: " + countF);
     }
 
     public int getRank(int year, String name, String gender) {
@@ -41,7 +46,7 @@ public class BabyNames {
          * If the name is not in the file, then -1 is returned. */
 
         int currRank = 0;
-        String fileName = "us_babynames_small/yob" + year + "short.csv";
+        String fileName = "us_babynames/us_babynames_by_year/yob" + year + ".csv";
         FileResource fr = new FileResource(fileName);
         CSVParser parser = fr.getCSVParser(false);
 
@@ -67,7 +72,7 @@ public class BabyNames {
          * returned. */
 
         int currRank = 0;
-        String fileName = "us_babynames_small/yob" + year + "short.csv";
+        String fileName = "us_babynames/us_babynames_by_year/yob" + year + ".csv";
 
         FileResource fr = new FileResource(fileName);
         CSVParser parser = fr.getCSVParser(false);
@@ -153,13 +158,14 @@ public class BabyNames {
                 String currGender = rec.get(1); // Gender
                 if (currGender.equals(gender)) { // Correct gender.
                     currRank++;
+                    String currName = rec.get(0); // Name
+                    if (currName.equals(name)) {
+                        sumRank +=currRank;
+                        countRank++;         
+                        break;
+                    }
                 }
-                String currName = rec.get(0); // Name
-                if (currName.equals(name)) {
-                    sumRank +=currRank;
-                    countRank++;         
-                    break;
-                }
+
             }
         }
 
@@ -172,7 +178,7 @@ public class BabyNames {
          * names with the same gender and same year who are ranked higher than name.*/
 
         int totalBirths = 0;
-        String fileName = "us_babynames_small/yob" + year + "short.csv";
+        String fileName = "us_babynames/us_babynames_by_year/yob" + year + ".csv";
 
         FileResource fr = new FileResource(fileName);
         CSVParser parser = fr.getCSVParser(false);
