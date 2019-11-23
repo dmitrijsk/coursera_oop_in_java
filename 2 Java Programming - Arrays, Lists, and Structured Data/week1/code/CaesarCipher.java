@@ -15,9 +15,9 @@ public class CaesarCipher {
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String shiftedAlphabet = alphabet.substring(key) + alphabet.substring(0, key);
 
-        System.out.println(alphabet);
-        System.out.println(shiftedAlphabet);
-        System.out.println("Input: " + input);
+        // System.out.println(alphabet);
+        // System.out.println(shiftedAlphabet);
+        // System.out.println("Input: " + input);
 
         StringBuilder output = new StringBuilder(input);
 
@@ -34,7 +34,7 @@ public class CaesarCipher {
             }
         }
 
-        System.out.println("Ouput: " + output);
+        // System.out.println("Ouput: " + output);
 
         return output.toString();
     }
@@ -58,10 +58,10 @@ public class CaesarCipher {
          * starting with the second character. */
 
         StringBuilder output = new StringBuilder(input);
-        System.out.println("Input: " + output.toString());
+        // System.out.println("Input: " + output.toString());
         for (int i = 0; i < input.length(); i++) {
             String oneSymbol = input.substring(i, i+1);
-            System.out.println("Changing one symbol: " + oneSymbol);
+            // System.out.println("Changing one symbol: " + oneSymbol);
             if (((i + 1) % 2) == 0) { // position is even.
                 oneSymbol = encrypt(oneSymbol, key2);
             } else {                  // position is odd.
@@ -69,7 +69,7 @@ public class CaesarCipher {
             }
             output.setCharAt(i, oneSymbol.charAt(0));
         }
-        System.out.println("Ouput: " + output.toString());
+        // System.out.println("Ouput: " + output.toString());
         return output.toString();
     }
     
