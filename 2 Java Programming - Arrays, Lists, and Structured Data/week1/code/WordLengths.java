@@ -25,10 +25,8 @@ public class WordLengths {
             if (!Character.isAlphabetic(lastChar))  wordLen--;
             
             System.out.println(word + "\t\t" + wordLen);
-            if (wordLen > 30) {
-                wordLen = 30;
-            }
-            counts[wordLen]++;
+            if (wordLen > 30) wordLen = 30;
+            if (wordLen > 0) counts[wordLen]++; // For numbers and special characters.
         }
 
         for (int i = 1; i < counts.length; i++) {
