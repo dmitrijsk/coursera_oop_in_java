@@ -21,11 +21,13 @@ public class GladLib {
 
     public GladLib(){
         initializeFromSource(dataSourceDirectory);
+        usedList = new ArrayList<String>();
         myRandom = new Random();
     }
 
     public GladLib(String source){
         initializeFromSource(source);
+        usedList = new ArrayList<String>();
         myRandom = new Random();
     }
 
