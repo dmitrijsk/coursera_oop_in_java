@@ -34,8 +34,10 @@ public class WordsInFiles {
              * unless the filename is already in the ArrayList.*/
             else {
                 ArrayList<String> al = wordMap.get(word);
-                al.add(f.getName());
-                wordMap.put(word, al);
+                if (!al.contains(f.getName())) {
+                    al.add(f.getName());
+                    wordMap.put(word, al);   
+                }
             }
         }
     }
@@ -85,9 +87,9 @@ public class WordsInFiles {
         for (int i = 0; i < al.size(); i++) {
             System.out.println(al.get(i));
         }
-        
+
     }
-    
+
     public void tester() {
         /* This method tests the other methods. */
 
@@ -98,7 +100,12 @@ public class WordsInFiles {
             System.out.println(wordMap.get(word));
         }
         System.out.println("\nMax number of files a word is in: " + maxNumber());
-        System.out.println("\nWords that appear in 3 files: " + wordsInNumFiles(3));
-        printFilesIn("cats");
+
+        int numFiles = 4;
+        System.out.println("\nWords that appear in "+numFiles+" files: " + 
+            wordsInNumFiles(numFiles));
+        System.out.println("\nNumber of words that appear in "+numFiles+" files: " + 
+            wordsInNumFiles(numFiles).size());
+        printFilesIn("tree");
     }
 }
