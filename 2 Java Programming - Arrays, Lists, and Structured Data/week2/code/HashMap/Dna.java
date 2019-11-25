@@ -27,11 +27,11 @@ public class Dna {
         // 0123456789012
 
         codonMap.clear();
-        System.out.println(dna);
-        System.out.println("String length: " + dna.length());
+        // System.out.println(dna);
+        // System.out.println("String length: " + dna.length());
         for (int i=start; i < dna.length()-3; i += 3) {
             String codon = dna.substring(i, i+3);
-            System.out.println(i + "\t" + codon);
+            // System.out.println(i + "\t" + codon);
             if (codonMap.containsKey(codon)) {
                 codonMap.put(codon, codonMap.get(codon) + 1);
             } else {
@@ -86,7 +86,7 @@ public class Dna {
             /* and prints the codons and their number of occurrences for those 
              * codons whose number of occurrences in this reading frame are 
              * between two numbers inclusive. */
-            printCodonCounts(1, 5);
+            printCodonCounts(7, 7);
         }
     }
 }
